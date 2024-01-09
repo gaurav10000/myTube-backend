@@ -4,25 +4,22 @@ import fs from "fs"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    key: process.env.CLOUDINARY_API_KEY,
+    api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// cloudinary.v2.uploader.upload(
-//     ``,
-//     {public_id: },
-//     function(error, result) {console.log(result);}
-// )
 
 const uploadOnCloudinary = async (localFilePath) => {
     try {
         if (!localFilePath) return null
         // upload the file on cloudinary
-        const response = cloudinary.uploader.upload(localFilePath, {
-            resource_type: "auto"
+        const response = await cloudinary.uploader.upload(localFilePath, {
+            resource_type: "auto",
+            // public_id: localFilePath.split("/")[2].split(".")[0] // i will not send public name and let it make itself becasue two persons could send a file with same name, who knows? 
         })
         // file has been uploaded successfully
-        console.log(`file is uploaded on cloudinary ${response.url}`);
+        // console.log(`file is uploaded on cloudinary ${response.url}`);
+        fs.unlinkSync(localFilePath)
         return response
     } catch (error) {
         fs.unlinkSync(localFilePath) // removes the locally saved temporary file as the upload operation failed
