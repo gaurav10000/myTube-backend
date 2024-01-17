@@ -18,6 +18,8 @@ const asyncHandler = (requestHandler) => {
 export { asyncHandler }
 
 
+
+// this is the conecpt
 // const asyncHandler = (fn) => {}
 // const asyncHandler = (fn) => {() => {}}
 // const asyncHandler = (fn) => () => {} // this is same as above, but with explicit return
